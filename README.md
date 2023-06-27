@@ -11,7 +11,7 @@ Este repositorio contiene un sistema de gestión de turnos médicos desarrollado
 - Visualización de los turnos tomados por cada doctor.
 - Visualización de valoraciones y comentarios de los pacientes.
 
-- Este sistema se ha desarrollado sin utilizar estructuras (struct), y se ha enfocado en proporcionar una experiencia de uso intuitiva y eficiente para la gestión de turnos médicos.
+Este sistema se ha desarrollado sin utilizar estructuras (struct), y se ha enfocado en proporcionar una experiencia de uso intuitiva y eficiente para la gestión de turnos médicos.
 
 ### Historias de Usuario del Paciente:
 
