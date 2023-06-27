@@ -1,0 +1,3 @@
+D:/Freelancer/C_Programming/Doctores_Pacientes/cmake-build-debug/CMakeFiles/Doctores_Pacientes.dir
+D:/Freelancer/C_Programming/Doctores_Pacientes/cmake-build-debug/CMakeFiles/edit_cache.dir
+D:/Freelancer/C_Programming/Doctores_Pacientes/cmake-build-debug/CMakeFiles/rebuild_cache.dir
