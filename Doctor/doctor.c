@@ -2,6 +2,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#define MAX_USUARIO 20
+#define MAX_CONTRASENA 20
+
+int doctorLogeado;
+
 char **arregloDoctores() {
     FILE *archivo = fopen("../Archivos/doctores.txt", "r");
     if (archivo == NULL) {
@@ -74,27 +79,116 @@ void visualizarDoctores() {
     fclose(archivo);
 }
 
+// Función para realizar el login del doctor
+int login() {
+    char usuario[MAX_USUARIO];
+    char contrasena[MAX_CONTRASENA];
+
+    printf("Usuario: ");
+    scanf("%s", usuario);
+    printf("Contraseña: ");
+    scanf("%s", contrasena);
+
+    // Abrir el archivo de credenciales
+    FILE *archivo = fopen("../Archivos/credenciales.txt", "r");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo de credenciales.\n");
+        return 0;  // Indicar error de login
+    }
+
+    char usuarioArchivo[MAX_USUARIO];
+    char contrasenaArchivo[MAX_CONTRASENA];
+    int encontrado = 0;  // Indicador de si se encontró la credencial del doctor
+
+    // Buscar las credenciales en el archivo
+    while (fscanf(archivo, "%s %s", usuarioArchivo, contrasenaArchivo) == 2) {
+        if (strcmp(usuario, usuarioArchivo) == 0 && strcmp(contrasena, contrasenaArchivo) == 0) {
+            encontrado = 1;
+            break;
+        }
+    }
+
+    fclose(archivo);
+
+    if (encontrado) {
+        printf("¡Login exitoso!\n");
+        char ultimoCaracter = usuario[strlen(usuario) - 1];
+
+        char **doctores = arregloDoctores();
+        if (doctores == NULL) {
+            printf("Error al obtener la lista de doctores.\n");
+            return 0;  // Indicar error de login
+        }
+
+        printf("Bienvenido, %s.\n", doctores[ultimoCaracter - '1']);
+        doctorLogeado = (int) ultimoCaracter - 48;
+        return 1;  // Indicar login exitoso y devolver el número de doctor
+    } else {
+        printf("Usuario o contraseña incorrectos.\n");
+        return 0;  // Indicar error de login
+    }
+}
+
+// Función para mostrar los turnos asociados al doctor
+void mostrarTurnosDoctor() {
+    char nombreArchivo[50];
+    char **doctores = arregloDoctores();
+
+
+    for (int numeroArchivo = 1; numeroArchivo < 10; numeroArchivo++) {
+        sprintf(nombreArchivo, "../Archivos/turno%02d_%s.txt", numeroArchivo, doctores[doctorLogeado - 1]);
+
+        FILE *archivo = fopen(nombreArchivo, "r");
+        if (archivo == NULL) {
+            printf("No se encuentran mas turno o se presento un error al abrir el archivo de turno.\n");
+            break;
+        }
+
+        printf("Turnos del Doctor %s:\n", doctores[doctorLogeado - 1]);
+
+        char turno[1000];
+        while (fgets(turno, sizeof(turno), archivo) != NULL) {
+            printf("%s", turno);
+        }
+
+        fclose(archivo);
+
+        numeroArchivo++;
+    }
+}
+
+
 void doctorMenu() {
     system("cls");
     int opcion;
+    int doctorLogueado = 0;  // Indicador de si el doctor ha iniciado sesión
+
     do {
-        printf("\n-- Menu Doctor --\n");
-        printf("1. Visualizar informacion de los doctores\n");
-        printf("2. Visualizar turnos tomados\n");
-        printf("3. Regresar\n");
-        printf("Seleccione una opcion: ");
+        printf("----- MENÚ -----\n");
+        printf("1. Login\n");
+        printf("2. Mostrar turnos\n");
+        printf("3. Salir\n");
+        printf("Selecciona una opción: ");
         scanf("%d", &opcion);
 
         switch (opcion) {
             case 1:
                 system("cls");
-                visualizarDoctores();
+                if (doctorLogueado) {
+                    printf("Ya has iniciado sesión.\n");
+                } else {
+                    doctorLogueado = login();
+                }
                 system("pause");
                 system("cls");
                 break;
             case 2:
                 system("cls");
-                visualizarTurnosDoctor();
+                if (doctorLogueado) {
+                    mostrarTurnosDoctor();
+                } else {
+                    printf("Debes iniciar sesión primero.\n");
+                }
                 system("pause");
                 system("cls");
                 break;
@@ -105,7 +199,9 @@ void doctorMenu() {
                 system("cls");
                 break;
             default:
-                printf("Opcion invalida. Intente nuevamente.\n");
+                system("cls");
+                printf("Opción inválida. Por favor, selecciona una opción válida.\n");
+                system("pause");
                 system("cls");
                 break;
         }
