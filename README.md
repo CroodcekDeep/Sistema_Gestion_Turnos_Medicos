@@ -12,7 +12,8 @@ Si deseas obtener una explicación detallada del código que se ha desarrollado,
 enlace. En este recurso encontrarás una descripción paso a paso de cada función y su finalidad dentro del programa.
 Además, se brindarán detalles sobre el proceso de inicio de sesión de los doctores, la visualización de los turnos
 asociados a cada médico y otras características relevantes:
-[Explicacion](Documentacion/00General.md)
+
+[Explicacion del Codigo](Documentacion/00General.md)
 
 ## Características:
 
