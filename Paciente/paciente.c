@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "../Doctor/doctor.h"
 #include "../Valoracion/valoracion.h"
 
 // Variables globales
 // 3 doctores, 5 turnos por doctor, 7 dias de la semana
-bool horariosOcupados[3][5][7] = {false};
+bool horariosOcupados[NUM_DOCTORES][5][7] = {false};
 
 // Datos del paciente
 char nombre[50];
@@ -48,7 +49,7 @@ int seleccionarDoctor() {
     do {
         printf("Ingrese el número del doctor seleccionado: ");
         scanf("%d", &seleccionDoctor);
-    } while (!(seleccionDoctor >= 1 && seleccionDoctor <= 3));
+    } while (!(seleccionDoctor >= 1 && seleccionDoctor <= NUM_DOCTORES));
 
     return seleccionDoctor;
 }
@@ -88,54 +89,99 @@ void marcarHorarioOcupado(int doctor, int dia, int horario) {
     horariosOcupados[doctor - 1][dia - 1][horario - 1] = true;
 }
 
-void visualizarTurno(int doctor, int dia, int horario) {
-    char **doctores = obtenerDoctores();
-    printf("\nVisualización final:\n");
-    printf("Nombre del Doctor:\n%s\n", doctores[doctor - 1]);
-    printf("Día: ");
+char *obtenerTurno(int doctor, int dia, int horario) {
+    char **doctores = arregloDoctores();
+    char *turno = (char *) malloc(1000 * sizeof(char)); // Reservar memoria para el turno
+
+    sprintf(turno, "\nVisualización final:\nNombre del Doctor:\n%s\nDía: ", doctores[doctor - 1]);
+
     switch (dia) {
         case 1:
-            printf("Lunes");
+            strcat(turno, "Lunes");
             break;
         case 2:
-            printf("Martes");
+            strcat(turno, "Martes");
             break;
         case 3:
-            printf("Miércoles");
+            strcat(turno, "Miércoles");
             break;
         case 4:
-            printf("Jueves");
+            strcat(turno, "Jueves");
             break;
         case 5:
-            printf("Viernes");
+            strcat(turno, "Viernes");
             break;
     }
-    printf("\nHorario: ");
+
+    strcat(turno, "\nHorario: ");
     switch (horario) {
         case 1:
-            printf("09:00 - 10:00");
+            strcat(turno, "09:00 - 10:00");
             break;
         case 2:
-            printf("10:00 - 11:00");
+            strcat(turno, "10:00 - 11:00");
             break;
         case 3:
-            printf("11:00 - 12:00");
+            strcat(turno, "11:00 - 12:00");
             break;
         case 4:
-            printf("12:00 - 13:00");
+            strcat(turno, "12:00 - 13:00");
             break;
         case 5:
-            printf("13:00 - 14:00");
+            strcat(turno, "13:00 - 14:00");
             break;
         case 6:
-            printf("14:00 - 15:00");
+            strcat(turno, "14:00 - 15:00");
             break;
         case 7:
-            printf("15:00 - 16:00");
+            strcat(turno, "15:00 - 16:00");
             break;
     }
-    printf("\n");
-    mostrarDatosPaciente();
+
+    strcat(turno, "\n");
+
+    // Agregar información del paciente
+    strcat(turno, "Información del Paciente:");
+    strcat(turno, "\nNombre: ");
+    strcat(turno, nombre);
+    strcat(turno, "\nApellido: ");
+    strcat(turno, apellido);
+    strcat(turno, "\nGénero: ");
+    strcat(turno, genero);
+    strcat(turno, "\nEdad: ");
+    char edadStr[10];
+    sprintf(edadStr, "%d", edad);
+    strcat(turno, edadStr);
+    strcat(turno, "\n");
+
+    return turno;
+}
+
+void guardarTurnoEnArchivo(char *turno, int numeroTurno) {
+    char nombreArchivo[50];
+    sprintf(nombreArchivo, "../Archivos/turno%02d.txt", numeroTurno); // Generar el nombre del archivo
+
+    FILE *archivo = fopen(nombreArchivo, "w");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo para guardar el turno.\n");
+        return;
+    }
+
+    fprintf(archivo, "%s", turno); // Escribir el turno en el archivo
+
+    fclose(archivo);
+}
+
+void visualizarTurno(int doctor, int dia, int horario) {
+    char *turno = obtenerTurno(doctor, dia, horario);
+    static int numeroTurno = 1; // Contador de turno
+    guardarTurnoEnArchivo(turno, numeroTurno);
+    printf("%s", turno); // Mostrar el turno en la consola
+    system("pause");
+    system("cls");
+    printf("\nEl turno ha sido guardado en el archivo turno%02d.txt\n", numeroTurno);
+    numeroTurno++;
+    free(turno); // Liberar memoria del turno
 }
 
 void tomarTurno() {
