@@ -2,7 +2,7 @@
 #define DOCTORES_PACIENTES_DOCTOR_H
 
 // Si agrega mas doctores al archivo doctores.txt, cambie el valor de NUM_DOCTORES
-#define NUM_DOCTORES 7
+#define NUM_DOCTORES 4
 
 char **arregloDoctores();
 
