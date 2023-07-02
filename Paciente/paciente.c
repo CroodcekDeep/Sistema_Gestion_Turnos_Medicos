@@ -157,9 +157,9 @@ char *obtenerTurno(int doctor, int dia, int horario) {
     return turno;
 }
 
-void guardarTurnoEnArchivo(char *turno, int numeroTurno) {
+void guardarTurnoEnArchivo(char *turno, int numeroTurno, char *nombreDoctor) {
     char nombreArchivo[50];
-    sprintf(nombreArchivo, "../Archivos/turno%02d.txt", numeroTurno); // Generar el nombre del archivo
+    sprintf(nombreArchivo, "../Archivos/turno%02d_%s.txt", numeroTurno, nombreDoctor); // Generar el nombre del archivo
 
     FILE *archivo = fopen(nombreArchivo, "w");
     if (archivo == NULL) {
@@ -173,13 +173,14 @@ void guardarTurnoEnArchivo(char *turno, int numeroTurno) {
 }
 
 void visualizarTurno(int doctor, int dia, int horario) {
+    char **doctores = arregloDoctores();
     char *turno = obtenerTurno(doctor, dia, horario);
     static int numeroTurno = 1; // Contador de turno
-    guardarTurnoEnArchivo(turno, numeroTurno);
+    guardarTurnoEnArchivo(turno, numeroTurno, doctores[doctor - 1]);
     printf("%s", turno); // Mostrar el turno en la consola
     system("pause");
     system("cls");
-    printf("\nEl turno ha sido guardado en el archivo turno%02d.txt\n", numeroTurno);
+    printf("\nEl turno ha sido guardado en el archivo turno%02d_%s.txt\n", numeroTurno, doctores[doctor - 1]);
     numeroTurno++;
     free(turno); // Liberar memoria del turno
 }
