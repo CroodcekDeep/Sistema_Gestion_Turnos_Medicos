@@ -5,6 +5,10 @@
 #include "../Doctor/doctor.h"
 #include "../Valoracion/valoracion.h"
 
+// Variables globales
+// 3 doctores, 5 turnos por doctor, 7 dias de la semana
+bool horariosOcupados[3][5][7] = {false};
+
 
 int seleccionarDoctor() {
     printf("Seleccione un doctor:\n");
@@ -44,6 +48,14 @@ int seleccionarHorario() {
     } while (!(seleccionHorario >= 1 && seleccionHorario <= 7));
 
     return seleccionHorario;
+}
+
+bool verificarHorarioOcupado(int doctor, int dia, int horario) {
+    return horariosOcupados[doctor - 1][dia - 1][horario - 1];
+}
+
+void marcarHorarioOcupado(int doctor, int dia, int horario) {
+    horariosOcupados[doctor - 1][dia - 1][horario - 1] = true;
 }
 
 void visualizarTurno(int doctor, int dia, int horario) {
