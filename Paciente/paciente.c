@@ -9,6 +9,36 @@
 // 3 doctores, 5 turnos por doctor, 7 dias de la semana
 bool horariosOcupados[3][5][7] = {false};
 
+// Datos del paciente
+char nombre[50];
+char apellido[50];
+char genero[10];
+int edad;
+
+
+void datosPaciente() {
+    printf("\n-- Registrese --\n");
+
+    printf("Ingrese el nombre del paciente: ");
+    scanf("%s", nombre);
+
+    printf("Ingrese el apellido del paciente: ");
+    scanf("%s", apellido);
+
+    printf("Ingrese el género del paciente: ");
+    scanf("%s", genero);
+
+    printf("Ingrese la edad del paciente: ");
+    scanf("%d", &edad);
+}
+
+void mostrarDatosPaciente() {
+    printf("\nDatos del paciente:\n");
+    printf("\tNombre: %s\n", nombre);
+    printf("\tApellido: %s\n", apellido);
+    printf("\tGénero: %s\n", genero);
+    printf("\tEdad: %d\n", edad);
+}
 
 int seleccionarDoctor() {
     printf("Seleccione un doctor:\n");
