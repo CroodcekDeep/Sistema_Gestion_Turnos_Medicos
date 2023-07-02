@@ -1,7 +1,18 @@
 # Sistema de Gestión de Turnos Médicos
 
 ## Descripción del Repositorio:
-Este repositorio contiene un sistema de gestión de turnos médicos desarrollado en lenguaje de programación "C". El sistema ofrece una interfaz de texto en la terminal para pacientes y doctores, permitiendo la programación y visualización de turnos, así como la valoración del servicio y comentarios por parte de los pacientes.
+
+Este repositorio contiene un sistema de gestión de turnos médicos desarrollado en lenguaje de programación "C". El
+sistema ofrece una interfaz de texto en la terminal para pacientes y doctores, permitiendo la programación y
+visualización de turnos, así como la valoración del servicio y comentarios por parte de los pacientes.
+
+## Explicación del Código:
+
+Si deseas obtener una explicación detallada del código que se ha desarrollado, te invitamos a visitar el siguiente
+enlace. En este recurso encontrarás una descripción paso a paso de cada función y su finalidad dentro del programa.
+Además, se brindarán detalles sobre el proceso de inicio de sesión de los doctores, la visualización de los turnos
+asociados a cada médico y otras características relevantes:
+[Explicacion](Documentacion/00General.md)
 
 ## Características:
 
@@ -11,7 +22,8 @@ Este repositorio contiene un sistema de gestión de turnos médicos desarrollado
 - Visualización de los turnos tomados por cada doctor.
 - Visualización de valoraciones y comentarios de los pacientes.
 
-Este sistema se ha desarrollado sin utilizar estructuras (struct), y se ha enfocado en proporcionar una experiencia de uso intuitiva y eficiente para la gestión de turnos médicos.
+Este sistema se ha desarrollado sin utilizar estructuras (struct), y se ha enfocado en proporcionar una experiencia de
+uso intuitiva y eficiente para la gestión de turnos médicos.
 
 ### Historias de Usuario del Paciente:
 
@@ -35,4 +47,5 @@ Este sistema se ha desarrollado sin utilizar estructuras (struct), y se ha enfoc
 | A-1    | Visualizar valoraciones y comentarios | Alta      | Como administrador, quiero poder visualizar las valoraciones y comentarios de los pacientes. | El administrador puede acceder a las valoraciones y comentarios realizados por los pacientes, lo que le permite evaluar la calidad del servicio brindado. |
 
 ## Autor
+
 - [Ginno Taimal](https://github.com/CroodcekDeep)
