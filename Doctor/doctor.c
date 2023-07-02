@@ -1,43 +1,78 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
-char **obtenerDoctores() {
-    static char *doctores[] = {
-            // Doctor A
-            "\tNombre y Apellidos: Dr. John Smith\n"
-            "\tCorreo: doctora@example.com\n"
-            "\tTelefono: +1234567890 ext. 123\n"
-            "\tEspecialidad: Cardiologia",
+char **arregloDoctores() {
+    FILE *archivo = fopen("../Archivos/doctores.txt", "r");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo doctores.txt\n");
+        return NULL;
+    }
 
-            // Doctor B
-            "\tNombre y Apellidos: Dr. Maria Garcia\n"
-            "\tCorreo: doctorb@example.com\n"
-            "\tTelefono: +0987654321 ext. 456\n"
-            "\tEspecialidad: Dermatologia",
+    // Contar la cantidad de doctores en el archivo
+    int numDoctores = 0;
+    char linea[500];
+    while (fgets(linea, sizeof(linea), archivo) != NULL) {
+        if (strstr(linea, "Nombre y Apellidos: ") != NULL) {
+            numDoctores++;
+        }
+    }
+    rewind(archivo);
 
-            // Doctor C
-            "\tNombre y Apellidos: Dr. David Johnson\n"
-            "\tCorreo: doctorc@example.com\n"
-            "\tTelefono: +1112223333 ext. 789\n"
-            "\tEspecialidad: Pediatria"
-    };
+    // Crear el arreglo dinámico para almacenar los nombres y apellidos
+    char **doctores = (char **) malloc(numDoctores * sizeof(char *));
+    if (doctores == NULL) {
+        printf("Error al asignar memoria para el arreglo de doctores.\n");
+        fclose(archivo);
+        return NULL;
+    }
 
+    // Leer el archivo y guardar los nombres y apellidos en el arreglo
+    int i = 0;
+    while (fgets(linea, sizeof(linea), archivo) != NULL) {
+        if (strstr(linea, "Nombre y Apellidos: ") != NULL) {
+            char *nombreApellido = strchr(linea, ':') + 2;
+            nombreApellido[strcspn(nombreApellido, "\n")] = '\0'; // Eliminar el salto de línea
+            doctores[i] = strdup(nombreApellido);
+            i++;
+        }
+    }
+
+    fclose(archivo);
     return doctores;
 }
 
+
 void visualizarDoctores() {
-    char **doctores = obtenerDoctores();
+    FILE *archivo = fopen("../Archivos/doctores.txt", "r");
+    if (archivo == NULL) {
+        printf("Error al abrir el archivo doctores.txt\n");
+        return;
+    }
 
     printf("Lista de doctores:\n");
-    for (int i = 0; i < 3; i++) {
-        printf("%d. %s\n", i + 1, doctores[i]);
+
+    char linea[500];
+    int numDoctor = 1;
+    while (fgets(linea, sizeof(linea), archivo) != NULL) {
+        if (strcmp(linea, "\n") == 0) {
+            continue;
+        } else if (strstr(linea, "Nombre y Apellidos: ") != NULL) {
+            printf("%d. Doctor/a:\n", numDoctor);
+            printf("%s", linea);
+        } else {
+            printf("%s", linea);
+        }
+
+        if (strstr(linea, "Especialidad: ") != NULL) {
+            numDoctor++;
+        }
     }
+
+    printf("No se encontraron mas líneas en el archivo.\n");
+
+    fclose(archivo);
 }
-
-void visualizarTurnosDoctor() {
-
-}
-
 
 void doctorMenu() {
     system("cls");

@@ -1,11 +1,12 @@
 #ifndef DOCTORES_PACIENTES_DOCTOR_H
 #define DOCTORES_PACIENTES_DOCTOR_H
 
-char **obtenerDoctores();
+// Si agrega mas doctores al archivo doctores.txt, cambie el valor de NUM_DOCTORES
+#define NUM_DOCTORES 7
+
+char **arregloDoctores();
 
 void visualizarDoctores();
-
-void visualizarTurnosDoctor();
 
 void doctorMenu();
 
